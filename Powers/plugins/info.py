@@ -7,17 +7,21 @@ from pyrogram import enums
 from pyrogram.errors import EntityBoundsInvalid, MediaCaptionTooLong, RPCError
 from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.users import GetFullUser
+from pyrogram.raw.types import Channel, UserFull, users
 from pyrogram.types import Message
 
-from Powers import LOGGER, OWNER_ID
+from Powers import BDB_URI, LOGGER, OWNER_ID
 from Powers.bot_class import Gojo
 from Powers.database.antispam_db import GBan
+from Powers.database.approve_db import Approve
 from Powers.supports import get_support_staff
 from Powers.utils.custom_filters import command
 from Powers.utils.extract_user import extract_user
 
 gban_db = GBan()
 
+if BDB_URI:
+    from Powers.plugins import bday_info
 
 async def count(c: Gojo, chat):
     try:
@@ -57,11 +61,18 @@ async def count(c: Gojo, chat):
 
 
 async def user_info(c: Gojo, user, already=False):
-    if not already:
-        user = await c.get_users(user_ids=user)
-    if not user.first_name:
-        return ["Deleted account", None]
+    user_all: users.UserFull = await c.invoke(
+        GetFullUser(
+            id=await c.resolve_peer(user)
+        )
+    )
+    user = await c.get_users(user)
+    full_user: UserFull = user_all.full_user
+    channel: Channel = user_all.chats
+    if user.is_deleted:
+        return "Deleted account", None
 
+    
     gbanned, reason_gban = gban_db.get_gban(user.id)
     if gbanned:
         gban = True
@@ -71,24 +82,28 @@ async def user_info(c: Gojo, user, already=False):
         reason = "User is not gbanned"
 
     user_id = user.id
-    userrr = await c.resolve_peer(user_id)
-    about = "NA"
-    try:
-        ll = await c.invoke(
-            GetFullUser(
-                id=userrr
-            )
-        )
-        about = ll.full_user.about
-    except Exception:
-        pass
+    about = full_user.about
     SUPPORT_STAFF = get_support_staff()
     username = user.username
-    first_name = user.first_name
-    last_name = user.last_name
-    mention = user.mention(f"{first_name}")
+    full_name = user.full_name
     dc_id = user.dc_id
     is_verified = user.is_verified
+    mention = user.mention
+    dob = False
+    if dob := full_user.birthday:
+        dob = datetime(int(dob.year), int(dob.month), int(dob.day)).strftime("%d %B %Y")
+    else:
+        if BDB_URI:  
+            try:      
+                if result := bday_info.find_one({"user_id": user}):
+                    u_dob = datetime.strptime(result["dob"], "%d/%m/%Y")
+                    day = u_dob.day
+                    formatted = u_dob.strftime("%B %Y")
+                    suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(day % 10, 'th')
+                    dob = f"{day}{suffix} {formatted}"
+            except:
+                pass
+
     is_restricted = user.is_restricted
     photo_id = user.photo.big_file_id if user.photo else None
     is_support = user_id in SUPPORT_STAFF
@@ -136,26 +151,26 @@ async def user_info(c: Gojo, user, already=False):
 <b><i><u>⚡️ Extracted User info From Telegram ⚡️</b></i></u>
 
 <b>🆔 User ID</b>: <code>{user_id}</code>
-<b>📎 Link To Profile</b>: <a href='tg://user?id={user_id}'>Click Here🚪</a>
 <b>🫵 Mention</b>: {mention}
-<b>🗣 First Name</b>: <code>{first_name}</code>
-<b>🔅 Second Name</b>: <code>{last_name}</code>
+<b>🗣 Full Name</b>: <code>{full_name}</code>
 <b>🔍 Username</b>: {("@" + username) if username else "NA"}
-<b>✍️ Bio</b>: `{about}`
-<b>🧑‍💻 Support</b>: {is_support}\n"""
+<b>✍️ Bio</b>: `{about}`\n"""
+    if dob:
+        caption += f"<b>🎂 Birthday<b>: {dob}\n<b>🧑‍💻 Support</b>: {is_support}\n"
+    else:
+        caption += f"<b>🧑‍💻 Support</b>: {is_support}\n"
     if is_support:
         caption += f"<b>🥷 Support user type</b>: <code>{omp}</code>\n<b>💣 Gbanned</b>: {gban}\n"
     else:
         caption += f"<b>💣 Gbanned</b>: {gban}\n"
 
     if gban:
-        caption += f"<b>☠️ Gban reason</b>: <code>{reason}</code>\n"
-    caption += f"""
-<b>🌐 DC ID</b>: {dc_id}
+        caption += f"<b>☠️ Gban reason</b>: <code>{reason}</code>"
+    caption += f"""<b>🌐 DC ID</b>: {dc_id}
 <b>✋ RESTRICTED</b>: {is_restricted}
 <b>✅ VERIFIED</b>: {is_verified}
 <b>❌ FAKE</b> : {is_fake}
-<b>⚠️ SCAM</b> : {is_scam} 
+<b>⚠️ SCAM</b> : {is_scam}
 <b>🤖 BOT</b>: {is_bot}
 <b>👀 Last seen</b>: <code>{last_date}</code>
 """
@@ -258,6 +273,22 @@ async def info_func(c: Gojo, message: Message):
         LOGGER.error(e)
         LOGGER.error(format_exc())
         return await m.edit(str(e))
+    
+
+    status = False
+    if m.from_user and (m.chat.id != m.from_user.id):
+        try:
+            if status:= await m.chat.get_member(user):
+                status = str(status.status.value).capitalize()
+        except:
+            pass
+        if not status or status == "Member":
+            approved_users = Approve(m.chat.id).check_approve(user)
+            if Approve(m.chat.id).check_approve(user):
+                status = "Member, Approved"
+
+    if status:
+        info_caption += f"<b>👥 Status </b>: {status}"
 
     if not photo_id:
         await m.delete()
