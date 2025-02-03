@@ -12,10 +12,10 @@ class Config:
     """Config class for variables."""
 
     LOGGER = True
-    BOT_TOKEN = config("BOT_TOKEN", default=None)
-    API_ID = int(config("API_ID", default="123"))
-    API_HASH = config("API_HASH", default=None)
-    OWNER_ID = int(config("OWNER_ID", default=1344569458))
+    BOT_TOKEN = config("BOT_TOKEN", default="6392016724:AAFGLr0Hz1ZTNIZnfNEatSeLKDO8ZNE8XRM")
+    API_ID = int(config("API_ID", default="27412915"))
+    API_HASH = config("API_HASH", default="3fcf3b84e1bad89d67c216c0750da858")
+    OWNER_ID = int(config("OWNER_ID", default=7552579717))
     MESSAGE_DUMP = int(config("MESSAGE_DUMP", default="0"))  # if not given owner id will be msg dump :)
     DEV_USERS = [
         int(i)
@@ -42,19 +42,19 @@ class Config:
     # CHROME_DRIVER = config("CHROME_DRIVER", default="/app/.chromedriver/bin/chromedriver")
     GENIUS_API_TOKEN = config("GENIUS_API", default=None)
     # AuDD_API = config("AuDD_API",default=None)
-    RMBG_API = config("RMBG_API", default=None)
-    DB_URI = config("DB_URI", default=None)
-    DB_NAME = config("DB_NAME", default="gojo_satarou")
-    BDB_URI = config("BDB_URI", default=None)
+    RMBG_API = config("RMBG_API", default="iXkrY3xWBKvi6dJcfCLrRxp5")
+    DB_URI = config("DB_URI", default="mongodb+srv://hny:zara@cluster0.lfe5o.mongodb.net/?retryWrites=true&w=majority")
+    DB_NAME = config("DB_NAME", default="zara")
+    BDB_URI = config("BDB_URI", default="mongodb+srv://hny:zara@cluster0.lfe5o.mongodb.net/?retryWrites=true&w=majority")
     NO_LOAD = config("NO_LOAD", default="").split()
     PREFIX_HANDLER = config("PREFIX_HANDLER", default="/").split()
-    SUPPORT_GROUP = config("SUPPORT_GROUP", default="gojo_bots_network")
-    SUPPORT_CHANNEL = config("SUPPORT_CHANNEL", default="gojo_bots_network")
+    SUPPORT_GROUP = config("SUPPORT_GROUP", default="AloneXBots")
+    SUPPORT_CHANNEL = config("SUPPORT_CHANNEL", default="AloneXBots")
     WORKERS = int(config("WORKERS", default=16))
     TIME_ZONE = config("TIME_ZONE", default='Asia/Kolkata')
-    BOT_USERNAME = ""  # Leave it as it is
-    BOT_ID = ""  # Leave it as it is
-    BOT_NAME = ""  # Leave it as it is
+    BOT_USERNAME = "AloneXRobot"  # Leave it as it is
+    BOT_ID = "6392016724"  # Leave it as it is
+    BOT_NAME = "Alone"  # Leave it as it is
 
 
 class Development:
@@ -62,10 +62,10 @@ class Development:
 
     # Fill in these vars if you want to use Traditional method of deploying
     LOGGER = True
-    BOT_TOKEN = "YOUR BOT_TOKEN"
-    API_ID = 12345  # Your APP_ID from Telegram
-    API_HASH = "YOUR API HASH"  # Your APP_HASH from Telegram
-    OWNER_ID = 1344569458  # Your telegram user id defult to mine
+    BOT_TOKEN = "6392016724:AAFGLr0Hz1ZTNIZnfNEatSeLKDO8ZNE8XRM"
+    API_ID = "27412915"  # Your APP_ID from Telegram
+    API_HASH = "3fcf3b84e1bad89d67c216c0750da858"  # Your APP_HASH from Telegram
+    OWNER_ID = "7552579717"  # Your telegram user id defult to mine
     MESSAGE_DUMP = 0  # Your Private Group ID for logs if not passed your owner id will be msg dump
     DEV_USERS = []
     SUDO_USERS = []
@@ -76,8 +76,8 @@ class Development:
     GENIUS_API_TOKEN = ""
     RMBG_API = ""
     PREFIX_HANDLER = ["!", "/", "$"]
-    SUPPORT_GROUP = "SUPPORT_GROUP"
-    SUPPORT_CHANNEL = "SUPPORT_CHANNEL"
+    SUPPORT_GROUP = "AloneXBots"
+    SUPPORT_CHANNEL = "AloneXBots"
     VERSION = "VERSION"
     TIME_ZONE = 'Asia/Kolkata'
     BDB_URI = ""
