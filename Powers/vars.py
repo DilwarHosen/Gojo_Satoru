@@ -16,7 +16,7 @@ class Config:
     API_ID = int(config("API_ID", default="27412915"))
     API_HASH = config("API_HASH", default="3fcf3b84e1bad89d67c216c0750da858")
     OWNER_ID = int(config("OWNER_ID", default=7552579717))
-    MESSAGE_DUMP = int(config("MESSAGE_DUMP", default="0"))  # if not given owner id will be msg dump :)
+    MESSAGE_DUMP = int(config("MESSAGE_DUMP", default="-1001603822916"))  # if not given owner id will be msg dump :)
     DEV_USERS = [
         int(i)
         for i in config(
@@ -66,21 +66,21 @@ class Development:
     API_ID = "27412915"  # Your APP_ID from Telegram
     API_HASH = "3fcf3b84e1bad89d67c216c0750da858"  # Your APP_HASH from Telegram
     OWNER_ID = "7552579717"  # Your telegram user id defult to mine
-    MESSAGE_DUMP = 0  # Your Private Group ID for logs if not passed your owner id will be msg dump
+    MESSAGE_DUMP = "-1001603822916"  # Your Private Group ID for logs if not passed your owner id will be msg dump
     DEV_USERS = []
     SUDO_USERS = []
     WHITELIST_USERS = []
-    DB_URI = ""  # Your mongo DB URI
-    DB_NAME = ""  # Your DB name
+    DB_URI = "mongodb+srv://hny:zara@cluster0.lfe5o.mongodb.net/?retryWrites=true&w=majority"  # Your mongo DB URI
+    DB_NAME = "zara"  # Your DB name
     NO_LOAD = []
     GENIUS_API_TOKEN = ""
-    RMBG_API = ""
+    RMBG_API = "iXkrY3xWBKvi6dJcfCLrRxp5"
     PREFIX_HANDLER = ["!", "/", "$"]
     SUPPORT_GROUP = "AloneXBots"
     SUPPORT_CHANNEL = "AloneXBots"
     VERSION = "VERSION"
     TIME_ZONE = 'Asia/Kolkata'
-    BDB_URI = ""
+    BDB_URI = "mongodb+srv://hny:zara@cluster0.lfe5o.mongodb.net/?retryWrites=true&w=majority"
     WORKERS = 8
     # CHROME_BIN = "/app/.apt/usr/bin/google-chrome"
     # CHROME_DRIVER = "/app/.chromedriver/bin/chromedriver"
