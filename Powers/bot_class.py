@@ -57,7 +57,7 @@ class Gojo(Client):
         Config.BOT_ID = meh.id
         Config.BOT_NAME = meh.first_name
         Config.BOT_USERNAME = meh.username
-        startmsg = await self.send_message(MESSAGE_DUMP, "<i>Starting Bot...</i>")
+      #  startmsg = await self.send_message(MESSAGE_DUMP, "<i>Starting Bot...</i>")
 
         # Show in Log that bot has started
         LOGGER.info(
