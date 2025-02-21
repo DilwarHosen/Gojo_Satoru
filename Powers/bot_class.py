@@ -34,7 +34,7 @@ class Gojo(Client):
             workers=WORKERS,
         )
 
-    async def start(self):
+    async def start(self, *args, **kwargs):
         """Start the bot."""
         await super().start()
         await self.set_bot_commands(
