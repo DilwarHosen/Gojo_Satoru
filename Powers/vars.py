@@ -16,7 +16,7 @@ class Config:
     API_ID = int(config("API_ID", default="27412915"))
     API_HASH = config("API_HASH", default="3fcf3b84e1bad89d67c216c0750da858")
     OWNER_ID = int(config("OWNER_ID", default=7552579717))
-    MESSAGE_DUMP = int(config("MESSAGE_DUMP", default="-1002289376063"))  # if not given owner id will be msg dump :)
+    MESSAGE_DUMP = int(config("MESSAGE_DUMP", default="-1001819089478"))  # if not given owner id will be msg dump :)
     DEV_USERS = [
         int(i)
         for i in config(
@@ -66,7 +66,7 @@ class Development:
     API_ID = "27412915"  # Your APP_ID from Telegram
     API_HASH = "3fcf3b84e1bad89d67c216c0750da858"  # Your APP_HASH from Telegram
     OWNER_ID = "7552579717"  # Your telegram user id defult to mine
-    MESSAGE_DUMP = -1002289376063  # Your Private Group ID for logs if not passed your owner id will be msg dump
+    MESSAGE_DUMP = -1001819089478  # Your Private Group ID for logs if not passed your owner id will be msg dump
     DEV_USERS = []
     SUDO_USERS = []
     WHITELIST_USERS = []
